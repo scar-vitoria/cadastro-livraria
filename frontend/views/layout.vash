@@ -1,0 +1,46 @@
+@html.include("header")
+
+<body class="sb-nav-fixed">
+<header>
+    
+    <div >
+        <ul style= "list-style-type: none; margin: 0; padding: 0; overflow: hidden; background-color: #4169E1">
+            <li style="margin-top: 2mm; margin-bottom: 2mm; float: left;"><a href="/"><img class="" src="/img/livro.png" style="max-width: 80px; max-height:; width: auto; height: auto; margin-left: 25px;"></a></li>
+            <li style="margin-top: 2mm; margin-bottom: 2mm; float: left; border-left: 30px solid #4169E1;"><p style="font-family: 'Abril Fatface', serif; color: white; font-size: 50px;">Livraria</p></li>
+            <li style="margin-top: 8mm; margin-right: 35px; float: right;"><a style="text-decoration: none;" href="/livros"><p style="font-family: 'Abril Fatface', serif; color: white; font-size: 20px;">Livros</p></a></li>
+            <li style="margin-top: 8mm; margin-right: 35px; float: right;"><a style="text-decoration: none;" href="/autor"><p style="font-family: 'Abril Fatface', serif; color: white; font-size: 20px;">Autores</p></a></li>
+        </ul>
+    </div>
+    
+</header>
+
+        <!-----Início Páginas filhas ----->
+        <div id="layoutSidenav_content">
+            <!-----Início Páginas filhas ----->
+            @html.block('content')
+            <!-----Fim Páginas filhas ----->
+
+            @html.include('footer')
+        </div>
+
+        <!-----Fim Páginas filhas ----->
+
+
+    
+    <script src="/js/5.3.0/popper.js_2.11.8_popper.min.js" ></script>
+    <script src="/js/5.3.0/bootstrap.min.js"></script>
+    <script src="/js/scripts.js"></script> 
+    <script src="/js/fontawesome/v6.3.0_js_all.js" crossorigin="anonymous"></script>   
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script> -->
+    <script src="/js/datatables/pdfmake_0.2.7_pdfmake.min.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script> -->
+    <script src="/js/datatables/pdfmake_0.2.7_vfs_fonts.js"></script>
+    <!-- <script src="https://cdn.datatables.net/v/dt/jq-3.7.0/jszip-3.10.1/dt-1.13.5/b-2.4.1/b-html5-2.4.1/datatables.min.js"></script> -->
+    <script src="/js/datatables/html5-2.4.1_datatables.min.js"></script>    
+    <script src="/js/datatables/moment_2.29.2_moment.min.js"></script>
+    <script src="/js/jquery.maskMoney.min.js"></script> 
+    <script src="/js/axios.min.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-maskmoney/3.0.2/jquery.maskMoney.min.js" integrity="sha512-Rdk63VC+1UYzGSgd3u2iadi0joUrcwX0IWp2rTh6KXFoAmgOjRS99Vynz1lJPT8dLjvo6JZOqpAHJyfCEZ5KoA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
+
+
+</body>

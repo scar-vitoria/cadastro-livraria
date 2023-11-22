@@ -1,0 +1,52 @@
+### teste de buscar todos os autor
+GET http://localhost:40000/getAllAutor HTTP/1.1
+content-type: application/json
+//Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InF3ZSIsImlhdCI6MTcwMDY1Mjk3NywiZXhwIjoxNzAwNjUzNTc3fQ.asSDqzxgJYTbzUOSzGXoySL2Zdid91-ZA_rwDn4i-QU
+
+{    
+    
+}
+
+### teste de buscar autor por ID
+POST http://localhost:40000/getAutorByID HTTP/1.1
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InF3ZSIsImlhdCI6MTcwMDY1Mjk3NywiZXhwIjoxNzAwNjUzNTc3fQ.asSDqzxgJYTbzUOSzGXoySL2Zdid91-ZA_rwDn4i-QU
+
+{    
+    "autorid": 2
+}
+
+### teste de inserção de livro
+POST http://localhost:40000/insertAutor HTTP/1.1
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InF3ZSIsImlhdCI6MTcwMDY1Mjk3NywiZXhwIjoxNzAwNjUzNTc3fQ.asSDqzxgJYTbzUOSzGXoySL2Zdid91-ZA_rwDn4i-QU
+
+{    
+    "autorid": 0,
+    "codigo": "AAAA",
+    "nome": "AAAA",
+    "descricao": "AAAAA",
+    "deleted": false 
+}
+
+### teste de atualização de livro
+POST http://localhost:40000/updateAutor HTTP/1.1
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InF3ZSIsImlhdCI6MTcwMDY1Mjk3NywiZXhwIjoxNzAwNjUzNTc3fQ.asSDqzxgJYTbzUOSzGXoySL2Zdid91-ZA_rwDn4i-QU
+
+{    
+    "autorid": 3,
+    "codigo": "A003",
+    "nome": "Antoine de Saint-Exupéry",
+    "descricao": "Antoine de Saint-Exupéry, nascido Antoine-Marie-Roger de Saint-Exupéry, foi um escritor, ilustrador e piloto francês.",
+    "deleted": false    
+}
+
+### teste de remoção de livro
+POST http://localhost:40000/deleteAutor HTTP/1.1
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InF3ZSIsImlhdCI6MTcwMDY1Mjk3NywiZXhwIjoxNzAwNjUzNTc3fQ.asSDqzxgJYTbzUOSzGXoySL2Zdid91-ZA_rwDn4i-QU
+
+{    
+    "autorid": 5
+}

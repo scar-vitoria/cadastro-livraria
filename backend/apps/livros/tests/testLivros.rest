@@ -1,0 +1,67 @@
+### teste de buscar Livros por ID
+POST http://localhost:40000/Login HTTP/1.1
+content-type: application/json
+//Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InF3ZSIsImlhdCI6MTY5ODg1MDkzMSwiZXhwIjoxNjk4ODUxNTMxfQ.H9_YghloUT0U7vRpc_7UCDIY4ujh4Tr0On5OblnfZT8
+
+{    
+    "username": "qwe",
+    "password": "qwe"
+}
+
+
+### teste de buscar todos os Livros
+GET http://localhost:40000/getAllLivros HTTP/1.1
+content-type: application/json
+//Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InF3ZSIsImlhdCI6MTY5ODg1MDkzMSwiZXhwIjoxNjk4ODUxNTMxfQ.H9_YghloUT0U7vRpc_7UCDIY4ujh4Tr0On5OblnfZT8
+
+{    
+    
+}
+
+### teste de buscar Livros por ID
+POST http://localhost:40000/getLivroByID HTTP/1.1
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InF3ZSIsImlhdCI6MTcwMDY1Mjk3NywiZXhwIjoxNzAwNjUzNTc3fQ.asSDqzxgJYTbzUOSzGXoySL2Zdid91-ZA_rwDn4i-QU
+
+{    
+    "livroid": 1
+}
+
+### teste de inserção de Livros
+POST http://localhost:40000/insertLivros HTTP/1.1
+content-type: application/json
+//Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InF3ZSIsImlhdCI6MTcwMDY1Mjk3NywiZXhwIjoxNzAwNjUzNTc3fQ.asSDqzxgJYTbzUOSzGXoySL2Zdid91-ZA_rwDn4i-QU
+
+{    
+    "livroid": 0,
+    "codigo": "L003",
+    "titulo": "Sherlock Holmes - O Signo dos Quatro",
+    "paginas": 141,
+    "ano": 1890,
+    "autorid": 2,
+    "deleted": false
+}
+
+### teste de atualização de Livros
+POST http://localhost:40000/updateLivros HTTP/1.1
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InF3ZSIsImlhdCI6MTcwMDY1Mjk3NywiZXhwIjoxNzAwNjUzNTc3fQ.asSDqzxgJYTbzUOSzGXoySL2Zdid91-ZA_rwDn4i-QU
+
+{    
+    "livroid": 52,
+    "codigo": "AAA",
+    "titulo": "AAAA",
+    "paginas": 111,
+    "ano": 1111,
+    "autorid": 1,
+    "deleted": false
+}
+
+### teste de atualização de Livros
+POST http://localhost:40000/deleteLivros HTTP/1.1
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InF3ZSIsImlhdCI6MTcwMDY1Mjk3NywiZXhwIjoxNzAwNjUzNTc3fQ.asSDqzxgJYTbzUOSzGXoySL2Zdid91-ZA_rwDn4i-QU
+
+{    
+    "livroid": 52 
+}

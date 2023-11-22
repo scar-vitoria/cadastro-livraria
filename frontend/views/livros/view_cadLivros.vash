@@ -1,0 +1,160 @@
+@html.extend('layout', function(model){
+
+@html.block('content', function(model){
+
+
+<main>
+ <div>
+    <h2 class="mt-4" style="text-align: center; margin-bottom: 35px">@model.title</h2>
+  </div>
+
+    <div class="container-fluid px-4">
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="card-header">
+                </div>
+                <div class="card-body">
+                    <div class="col-xl-5">  
+                        <form  id="form">
+
+                            <div class="mb-1" style="display: none">
+                                <input type="number" name="livroid" value="@model.data.livroid" class="form-control" id="livroid">
+                            </div>
+
+                            <div class="mb-1">
+                                <label for="codigo" class="form-label">Código:</label>
+                                <input type="text" name="codigo" value="@model.data.codigo" class="form-control"
+                                    id="codigo" @(model.oper=='v' ? 'disabled' : '' )>
+                            </div>
+
+                            <div class="mb-1">
+                                <label for="titulo" class="form-label">Título:</label>
+                                <input type="text" name="titulo" value="@model.data.titulo" class="form-control" id="titulo"
+                                    @(model.oper=='v' ? 'disabled' : '' )>
+                            </div>
+
+                            <div class="mb-1">
+                                <label for="paginas" class="form-label">Páginas:</label>
+                                <input type="number" name="paginas" value="@model.data.paginas" class="form-control"
+                                    id="paginas" @(model.oper=='v' ? 'disabled' : '' )>
+                            </div>
+
+                            <div class="mb-1">
+                                <label for="ano" class="form-label">Ano:</label>
+                                <input type="number" name="ano" value="@model.data.ano" class="form-control"
+                                    id="ano" @(model.oper=='v' ? 'disabled' : '' )>
+                            </div>
+
+            
+                            <div class="mb-1">
+                                <label for="autorid" class="form-label">Autor:</label>
+                                <select class="form-select" aria-label="Default select example" id="autorid"
+                                    @(model.oper=='v' ? 'disabled' : '' ) name="autorid">
+                                    @model.aut.forEach(function(item){
+                                    @if(model.data.autorid === item.autorid) {
+                                    <option value="@item.autorid" selected>@item.nome</option>
+                                    } else {
+                                    <option value="@item.autorid">@item.nome</option>
+                                    }
+                                    });
+                                </select>
+                            </div>
+
+                    <br>
+                            @if (model.oper=="c") {
+                            <button type="submit" class="btn btn-outline-primary" onclick=""
+                                formmethod="POST">Salvar</button>
+                            }
+
+                        </form>
+
+                        <div>
+                            @if (model.oper=="vu") {
+                            <button type="button" class="btn btn-outline-primary" onclick="alteraRegistro()">Salvar
+                                Alteração</button>
+                            }
+
+                            @if (model.oper=="v") {
+                            <button type="button" class="btn btn-outline-primary"
+                                onclick="window.open('/livros/viewLivros/' + $('#livroid').val() + '/vu', '_self')">Alterar</button>
+                            }
+
+                            @if (model.oper=="v") {
+                            <button type="" class="btn btn btn-outline-danger" onclick="deleteLivros()">Remover</button>
+                            }
+                        </div>
+                        <button type="button" class="btn btn-outline-primary" onclick="window.location.href = '/livros'">Fechar
+                            sem salvar</button>                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</main>
+
+})
+
+})
+<script>
+    console.log("olá");
+
+    $('#form').on('submit', function () {
+        if ($('#datanascimento').val() == "") {
+            // $('#errormessage').html("Please provide at least an email ");
+            alert("Informe a data de nascimento");
+            return false;
+        }
+    });
+
+
+    async function alteraRegistro() {
+        // event.preventDefault();        
+        resp = await axios.post("/livros/viewLivros", {
+            livroid: $("#livroid").val(),
+            codigo: $("#codigo").val(),
+            titulo: $("#titulo").val(),
+            paginas: $("#paginas").val(),
+            ano: $("#ano").val(),
+            autorid: $("#autorid").val(),
+        }, {
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        });
+        //console.log("[view_cadAutor.vash|alteraRegistro] valor resp:", resp.data.status);
+        if (resp.data.status == "ok") {
+            alert("Autor alterado com sucesso!");
+        } else {
+            alert("Houve erro ao alterar os dados dos Autor!");
+        }
+    }
+
+    async function deleteLivros(codigoPar) {
+        resp = await axios.post("/livros/deleteLivros", {
+            livroid: $("#livroid").val(),
+        }, {
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        });
+
+        if (resp.data.status == "ok") {
+            alert("Livro removido com sucesso!");
+            window.open("/livros", "_self");
+        } else {
+            alert("Houve erro ao remover os dados dos livro!");
+        }
+    }
+
+    async function testeFormData() {
+        const form = document.getElementById("form");
+        const formData = new FormData(form);          
+
+        // for (const [key, value] of formData) {
+        //     console.log("Valores:" + `${key}: ${value}`);
+        // }
+
+        console.log("codigo: ", formData.get("codigo")); 
+    }
+</script>

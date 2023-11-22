@@ -1,0 +1,317 @@
+@html.extend('layout', function(model){ @html.block('content', function(model){
+
+<main>
+  <div>
+    <h2 class="mt-4" style="text-align: center; margin-bottom: 35px">@model.title</h2>
+  </div>
+
+  <form id="form">
+
+    <div class="form-row" style="text-align:center;">
+      
+    <div style="display:flex; flex-direction: row; justify-content: center; margin-bottom: 5mm">
+    
+      <div class="form-group" style="display: none">
+        <input type="number" name="autorid" id="autorid">
+      </div>
+      <div class="form-group">
+        <label for="codigo" class="col-form-label" required>Código:</label>
+        <input type="text" id="codigo" name="codigo" class="form-control" placeholder="" required readonly>
+      </div>
+      <div class="form-group">
+        <label for="nome" class="col-form-label" required style="margin-left: 5mm">Nome:</label>
+        <input type="text" id="nome" name="nome" class="form-control" placeholder="" size="40" required readonly>
+      </div>
+    </div>
+
+      <div class="form-group" style="display: flex; align-items: top; margin-left: 72mm">
+        <label for="descricao" class="col-form-label" style="margin-right: 2mm" required>Sobre:</label>
+        <textarea type="text" id="descricao" name="descricao" class="form-control" placeholder="" rows="3" cols="80" required readonly></textarea>
+      </div>
+    </div>
+
+  </form>
+
+<div style="text-align: center; margin-top: 30px; margin-bottom: 30px;">
+  <div class="">
+    <button type="button" class="btn btn-outline-primary" onclick="btnSalvar()" id="btnSalvar" hidden>
+      Salvar
+    </button>
+
+    <button type="button" class="btn btn-outline-primary" onclick="btnAlterar()" id="btnAlterar" hidden>
+      Alterar
+    </button>
+
+    <button type="button" class="btn btn-outline-primary" onclick="btnSalvarAlteracao()" id="btnSalvarAlteracao" hidden>
+      Salvar Alteração
+    </button>
+
+    <button type="button" class="btn btn-outline-primary" onclick="btnCancelarAlteracao()" id="btnCancelarAlteracao" hidden>
+      Cancelar Alteração
+    </button>
+
+    <button type="" class="btn btn btn-outline-danger" onclick="btnRemover()" id="btnRemover" hidden>
+      Remover
+    </button>
+
+    <button type="button" class="btn btn-outline-primary" onclick="window.location.href = '/autor'" id="btnFechar">
+      Fechar
+    </button>
+</div>
+</div>
+</main>
+
+}) })
+
+<script>
+  const form = document.getElementById("form");
+  var oper = "@model.oper";
+
+  window.onload = limpaForm();
+  
+
+   $('#form').on('submit', function () {
+        if ($('#datanascimento').val() == "") {
+            // $('#errormessage').html("Please provide at least an email ");
+            alert("Informe a data de nascimento");
+            return false;
+        }
+    });
+
+  //@ Limpa o conteúdo dos campos do formulário
+  async function limpaForm() {
+
+    $("#form").each(function() {
+      this.reset();
+    });
+
+    // Mostra os botões de acordo com o tipo da operação
+    if (oper == "c") {
+      $("#btnSalvar").prop("hidden", false);
+      habilitaForm();
+    }
+
+    if (oper == "u") {
+      $("#btnAlterar").prop("hidden", false);
+    }
+
+    //Necessário para buscar dados de acordo com o ID para serem alterados
+    if (oper == "u") {
+      idBusca = "@model.idBusca";
+      await getDados(idBusca);
+    }
+
+    //Coloca o curso no primeiro campo do formulário
+    $("#codigo").focus();
+  }
+
+  //@ Busca os dados de acordo com o ID para serem alterados
+  async function getDados(idBuscaPar) {
+    console.log("[getDados] idBusca", idBuscaPar);
+
+    try {
+      const resp = await axios.post(
+        "/autor/getDados", {
+          idBusca: idBuscaPar
+        }, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      
+      if (resp.data.status == "ok") {
+        $("#autorid").val(resp.data.registro.autorid);
+        $("#codigo").val(resp.data.registro.codigo);
+        $("#nome").val(resp.data.registro.nome);
+        $("#descricao").val(resp.data.registro.descricao);
+
+        console.log(datanascimento);
+
+      } else {
+        alert("Houve erro ao buscar os dados dos Autor!");
+      }
+    } catch (error) {
+      console.log("[view_cadAutor|getDados]Ocorreu um erro inesperado!" + error);
+    }
+  }
+
+  //@ Valida o formulário antes de salvá-lo
+  function validaForm(formDataPar) {
+    var validado = true;
+    $("#form input, #form select").each(function(index) {
+      var input = $(this);
+      if (
+        input.attr("type") == "text" &&
+        input.prop("required") &&
+        String(input.val()).length == 0
+      ) {
+        alert("Campo obrigatório");
+        //console.log('Type: ' + input.attr('type') + ' ID: ' + input.attr('id') + ' Name: ' + input.attr('name') + ' Value: ' + input.val() + ' Obrigatori: ' + input.prop("required"));
+        $(input).focus();
+        validado = false;
+        return false;
+      }
+    });
+
+    formDataPar.set("deleted", false);
+
+    return validado;
+  }
+
+  //@ Salva os dados
+  async function btnSalvar() {
+    const formData = new FormData(form);
+
+    const validado = validaForm(formData);
+    if (!validado) {
+      return;
+    }
+
+    try {
+      resp = await axios.post("/autor/insertAutor", formData, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (resp.data.status == "ok") {
+        alert(resp.data.mensagem);
+        limpaForm();
+      } else {
+        alert("Houve um erro: " + resp.data.mensagem);
+      }
+    } catch (error) {
+      alert("[view_cadAutor|btnSalvar]Ocorreu um erro inesperado!" + error);
+    }
+  }
+
+  //@ Habilita form para alteração
+  function habilitaForm() {
+    $("#codigo").prop("class", "form-control");
+    $("#codigo").prop("readonly", false);
+
+    $("#nome").prop("class", "form-control");
+    $("#nome").prop("readonly", false);
+
+    $("#datanascimento").prop("class", "form-control");
+    $("#datanascimento").prop("readonly", false);
+
+    $("#descricao").prop("class", "form-control");
+    $("#descricao").prop("readonly", false);
+
+  }
+
+  //@ Habilita a alteração
+  async function btnAlterar() {
+    $("#btnSalvarAlteracao").prop("hidden", false);
+    $("#btnCancelarAlteracao").prop("hidden", false);
+    $("#btnRemover").prop("hidden", false);
+    $("#btnAlterar").prop("hidden", true);
+
+    habilitaForm();
+  }
+
+  //@ Salva a alteração
+  //@ console.log("[view_cadLivros|btnSalvarAlteracao] :", )
+  async function btnSalvarAlteracao() {
+    const formData = new FormData(form);
+    const validado = validaForm(formData);
+    if (!validado) {
+      return;
+    }
+
+    try {
+      resp = await axios.post("/autor/updateAutor", formData, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (resp.data.status == "ok") {
+        alert(resp.data.mensagem);
+        window.open("/autor/openAutorUpdate/" + String($("#autorid").val()), "_self");
+      } else {
+        alert("Houve um erro: " + resp.data.mensagem);
+      }
+    } catch (error) {
+      alert("[view_cadAutor|btnSalvarAlteracao]Ocorreu um erro inesperado!" + error);
+    }
+
+
+  }
+
+  //@ Cancela a alteração
+  //@ console.log("[view_cadCAutor|btnCancelarAlteracao] Valor do id", $("#autorid").val());    
+  async function btnCancelarAlteracao() {
+    window.open("/autor/openAutorUpdate/" + String($("#autorid").val()), "_self");
+    console.log(autorid); 
+  }
+
+  //@ Remove livro
+  //@ console.log("[view_cadAutor|btnSalvarAlteracao] :", )
+  async function btnRemover() { 
+
+    var confirma = confirm("Deseja realmente remover o registro?");
+    if (!confirma) {
+      return; //@ Se o usuário selecionar Cancela, o registro não é removido.
+    }
+    const formData = new FormData(form);
+
+    try {
+      resp = await axios.post("/autor/deleteAutor", {
+        autorid: formData.get("autorid")
+      }, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (resp.data.status == "ok") {
+        alert(resp.data.mensagem);
+        window.open("/autor", "_self");
+      } else {
+        alert("Houve um erro: " + resp.data.mensagem);
+      }
+    } catch (error) {
+      alert("[view_cadAutor|btnSalvarAlteracao]Ocorreu um erro inesperado!" + error);
+    }
+  }
+
+  async function deleteAutor(autoridPar) {
+    resp = await axios.post(
+      "/autor/deleteAutor", {
+        id: $("#autorid").val(),
+      }, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    if (resp.data.status == "ok") {
+      alert("Autor removido com sucesso!");
+      window.open("/autor", "_self");
+    } else {
+      alert("Houve erro ao remover os dados dos autor!");
+    }
+  }
+
+  async function testeFormData() {
+    const form = document.getElementById("form");
+    const formData = new FormData(form);
+
+    // for (const [key, value] of formData) {
+    //     console.log("Valores:" + `${key}: ${value}`);
+    // }
+
+    console.log("Codigo: ", formData.get("codigo"));
+  }
+</script>
+
+<style>
+  .required:after {
+    content: " *";
+    color: red;
+  }
+</style>

@@ -1,0 +1,7 @@
+@html.extend('layout', function(model) {
+  @html.block('content', function(model) {
+    <h4 style="color: black; text-align: center; margin-top: 2mm; font-family: 'Playfair Display', serif;">SEJA BEM-VINDO!</h4>
+    <div style="margin-top: "><img style="max-width:100%; max-height:40%; width: auto; height: auto;" src="/img/banner1.jpg"/></div>
+    
+  })
+})

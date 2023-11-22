@@ -1,0 +1,24 @@
+@html.extend('layout', function(model){
+
+@html.block('content', function(model){
+
+
+<main>
+    <div style="margin-left: 25px;">
+        <h2 class="mt-4" style="text-align: center;">@model.title</h2>
+        <h6 style="margin-top: 20px;; margin-bottom: 35px; text-align: center;">Deseja cadastrar um novo Autor? <button type="button" class="btn btn-outline-primary" onclick="window.location.href = '/autor/openAutorInsert'">Cadastrar</button></h6>
+    </div>
+
+
+   <div>
+        @model.data.registro.forEach(function(registro){
+            <h5 style="margin-left: 25px; margin-top: 20px;"><a href="/autor/openAutorUpdate/@registro.autorid">@registro.nome</a></h5>
+            <p style="margin-left: 25px;">@registro.descricao</p>
+        })
+   </div>
+
+</main>
+
+})
+
+})
